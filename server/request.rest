@@ -1,0 +1,12 @@
+GET http://localhost:5000/card
+
+###
+POST http://localhost:5000/cards
+content-type: application/json
+
+{
+    "answer": "123",
+    "deckId": "12",
+    "pos": 4,
+    "question": "1"
+}
