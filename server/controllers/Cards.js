@@ -1,17 +1,26 @@
-import CardsModel from "../models/model.js";
+/* eslint-disable import/extensions */
+
+import cardsModel from '../models/cardModel.js';
 
 export const getAllCards = async (req, res) => {
   try {
-    const cards = await CardsModel.findAll();
+    const cards = await cardsModel.findAll();
     res.json(cards);
   } catch (error) {
     res.json({ message: error.message });
   }
 };
-
+export const getCardsByDeck = async (req, res) => {
+  try {
+    const cards = await cardsModel.findAll({ where: { deckId: req.params.id } });
+    res.json(cards);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
 export const getCardById = async (req, res) => {
   try {
-    const card = await CardsModel.findAll({
+    const card = await cardsModel.findAll({
       where: {
         id: req.params.id,
       },
@@ -24,9 +33,9 @@ export const getCardById = async (req, res) => {
 
 export const addCard = async (req, res) => {
   try {
-    await CardsModel.create(req.body);
+    await cardsModel.bulkCreate(req.body);
     res.json({
-      message: "Card Created",
+      message: 'Card Created',
     });
   } catch (error) {
     res.json({ message: error.message });
@@ -35,13 +44,13 @@ export const addCard = async (req, res) => {
 
 export const updateCard = async (req, res) => {
   try {
-    await CardsModel.update(req.body, {
+    await cardsModel.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
     res.json({
-      message: "Cards Updated",
+      message: 'Cards Updated',
     });
   } catch (error) {
     res.json({ message: error.message });
@@ -50,13 +59,13 @@ export const updateCard = async (req, res) => {
 
 export const deleteCard = async (req, res) => {
   try {
-    await CardsModel.destroy({
+    await cardsModel.destroy({
       where: {
         id: req.params.id,
       },
     });
     res.json({
-      message: "Card Deleted",
+      message: 'Card Deleted',
     });
   } catch (error) {
     res.json({ message: error.message });

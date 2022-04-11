@@ -8,15 +8,21 @@ class Api {
   }
 
   postNewCard(newCards) {
+    // console.log(newCards);
     return axios.post(`${this._url}/cards`, newCards);
   }
 
   deleteCard(deletedCards) {
-    return axios.delete(`${this._url}/cards/:id"`, deletedCards);
+    // console.log(deletedCards);
+    return axios.delete(`${this._url}/cards/:`);
   }
 
   updateCards(newCards) {
-    return axios.patch(`${this._url}/cards/:id"`, newCards);
+    return axios.patch(`${this._url}/cards/:id"`);
+  }
+
+  getCardsByDeck(id) {
+    return axios.get(`${this._url}/cards/byDeckId/${id}`);
   }
 }
 

@@ -1,10 +1,13 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+/* eslint-disable import/extensions */
+
+import { Sequelize } from 'sequelize';
+
+import db from '../config/database.js';
 
 const { DataTypes } = Sequelize;
 
 const Card = db.define(
-  "Cards",
+  'cards',
   {
     answer: {
       type: DataTypes.STRING,
@@ -21,7 +24,6 @@ const Card = db.define(
   },
   {
     freezeTableName: true,
-  }
+  },
 );
-
 export default Card;

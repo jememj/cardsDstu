@@ -7,7 +7,6 @@ import NewCardButton from '../components/buttons/NewCardButton';
 import NewCardForm from '../components/forms/NewCardForm';
 import Toolbar from '../components/toolbar/Toolbar';
 import generateEmptyCard from '../utils/generateEmptyCard';
-import generateRandomId from '../utils/generateRandomId';
 
 export default function Editor({ match }) {
   const { id } = match.params;
@@ -17,17 +16,18 @@ export default function Editor({ match }) {
 
   const currentDeck = id ? decks.find((deck) => deck.id === id) : null;
   const currentCards = id ? storeCards.filter((card) => card.deckId === id) : null;
-
+  // useEffect(() => {
+  //   dispatch('cards/getCardsByDeck', { deckId: id });
+  // }, []);
   const [name, setName] = useState(() => currentDeck?.title || '');
   const [color, setColor] = useState(() => currentDeck?.background || '#45B071');
   const [category, setCategory] = useState(() => currentDeck?.category || '');
-  const [deckId] = useState(() => id || generateRandomId('deck-'));
 
   const [count, setCount] = useState(() =>
     currentCards ? Array.from(Array(currentCards.length).keys()) : [0],
   );
   const [cards, setCards] = useState(() =>
-    currentCards ? [...currentCards] : [generateEmptyCard(deckId, 0)],
+    currentCards ? [...currentCards] : [generateEmptyCard(0)],
   );
 
   const [deletedCards, setDeletedCards] = useState(() => []);
@@ -47,14 +47,14 @@ export default function Editor({ match }) {
     setCount(newForms);
     setCards(newCards);
 
-    setDeletedCards((prev) => [...prev, [...cards].filter((i) => i.pos == pos)]);
+    setDeletedCards((prev) => [...prev, [...cards].filter((i) => i.pos === pos)]);
   };
 
   const saveDeck = () => {
     if (currentDeck) {
       dispatch('decks/edit', {
         deck: {
-          id: deckId,
+          id,
           background: color,
           color: '#FCFCFC',
           title: name,
@@ -70,7 +70,6 @@ export default function Editor({ match }) {
     } else {
       dispatch('decks/create', {
         deck: {
-          id: deckId,
           background: color,
           color: '#FCFCFC',
           title: name,
@@ -104,6 +103,7 @@ export default function Editor({ match }) {
   };
 
   useEffect(() => {
+    console.log(deletedCards);
     dispatch('cards/delete', { deletedCards });
   }, [deletedCards]);
 
@@ -124,7 +124,7 @@ export default function Editor({ match }) {
         onClick={() => {
           const pos = count[count.length - 1] + 1 || 0;
           setCount([...count, pos]);
-          setCards([...cards, generateEmptyCard(deckId, pos)]);
+          setCards([...cards, generateEmptyCard(pos)]);
         }}
       />
       <FlexWrap>

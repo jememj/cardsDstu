@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useStoreon } from 'storeon/react';
 import styled from 'styled-components';
@@ -9,14 +9,20 @@ import ToolBar from '../components/toolbar/Toolbar';
 export default function Deck({ match }) {
   const { id } = match.params;
   const history = useHistory();
-  const { cards, dispatch } = useStoreon('cards');
-  const { decks } = useStoreon('decks');
-  const cardsById = cards.filter((card) => card.deckId === id);
-  const currentDeck = decks.find((deck) => deck.id === id);
-  const { title, cardsCount } = currentDeck;
+  const { dispatch, cardsById, currentDeckById } = useStoreon('cardsById', 'currentDeckById');
+
+  useEffect(() => {
+    dispatch('cards/getCurrentDeck', { deckId: id });
+    dispatch('cards/getCardsByDeck', { deckId: id });
+  }, []);
+
+  if (!cardsById?.length || !currentDeckById) {
+    return <div>shrek</div>;
+  }
+  const { title, cardsCount } = currentDeckById;
 
   const delDeck = () => {
-    dispatch('decks/delete', { deletedDeck: currentDeck });
+    dispatch('decks/delete', { deletedDeck: currentDeckById });
     dispatch('cards/delete', {
       deletedCards: cardsById,
     });

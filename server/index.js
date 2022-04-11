@@ -1,12 +1,14 @@
-import express from 'express';
-import db from './config/database.js';
-import CardRouter from './routes/CardRouter.js';
+/* eslint-disable import/extensions */
 import cors from 'cors';
+import express from 'express';
+
+import db from './config/database.js';
+import router from './routes/router.js';
 
 const app = express();
 
 try {
-  await db.authenticate();
+  db.authenticate();
   console.log('Database connected...');
 } catch (error) {
   console.error('Connection error:', error);
@@ -14,6 +16,6 @@ try {
 
 app.use(cors());
 app.use(express.json());
-app.use('/', CardRouter);
+app.use('/', router);
 
 app.listen(5000, () => console.log('Server running at port 5000'));

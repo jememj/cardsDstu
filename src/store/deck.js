@@ -1,8 +1,25 @@
 /* eslint-disable no-shadow */
-import { decks } from './init';
+import decksApi from '../service/decks';
 
 export default function deck(store) {
-  store.on('@init', () => ({ decks, filter: '' }));
+  store.on('@init', async () => {
+    const decks = await decksApi.getDecks();
+    console.log(decks.data);
+    store.dispatch('decks/loaded', { decks: decks.data, filter: '' });
+  });
+  store.on('decks/loaded', (_, { decks }) => ({ decks }));
+
+  store.on('cards/getCurrentDeck', async (_, { deckId }) => {
+    const currentDeckResponse = await decksApi.getCurrentDeck(deckId);
+    store.dispatch('cards/getCurrentDeckLoaded', { currentDeckById: currentDeckResponse.data });
+  });
+
+  store.on('cards/getCurrentDeckLoaded', (_, { currentDeckById }) => ({ currentDeckById }));
+
+  // store.on('decks/create', async (_, { newDeck }) => {
+  //   await decksApi.postNewDeck(newDeck);
+  //   return { cards: decksApi.getDecks() };
+  // });
 
   store.on('decks/create', ({ decks, filter }, { deck }) => ({
     filter,

@@ -1,11 +1,10 @@
 import generateRandomId from './generateRandomId';
 
-export default function generateEmptyCard(deckId, pos) {
+export default function generateEmptyCard(pos) {
   return {
-    id: generateRandomId('card-'),
+    id: generateRandomId(),
     question: '',
     answer: '',
-    deckId,
     pos,
     author: 1,
   };

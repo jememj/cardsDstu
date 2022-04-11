@@ -7,8 +7,9 @@ import Filters from '../components/toolbar/Filters';
 
 export default function Decks() {
   const { decks } = useStoreon('decks');
-  const { dispatch, filter } = useStoreon('filter');
 
+  const { dispatch, filter } = useStoreon('filter');
+  console.log(decks);
   const filteredDecks = filter ? decks.filter((deck) => deck.category === filter) : decks;
 
   useEffect(
@@ -17,6 +18,9 @@ export default function Decks() {
     },
     [],
   );
+  if (!filteredDecks?.length) {
+    return <div>shrek</div>;
+  }
 
   return (
     <Wrapper>
