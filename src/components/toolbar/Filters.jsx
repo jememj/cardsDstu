@@ -17,5 +17,5 @@ export default function Filters() {
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
 `;

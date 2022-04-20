@@ -5,7 +5,7 @@ import { useStoreon } from 'storeon/react';
 import styled from 'styled-components';
 
 const links = [
-  { path: '/decks', name: 'Мои колоды' },
+  { path: '/decks', name: 'Мои доски' },
   { path: '/editor', name: 'Редактор' },
 ];
 
@@ -45,7 +45,7 @@ const HeaderWrapper = styled.header`
 `;
 const NavWrapper = styled.nav`
   display: flex;
-  max-width: 250px;
+  max-width: 220px;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -54,8 +54,6 @@ const NavWrapper = styled.nav`
 
 const Link = styled(NavLink)`
   font-family: ${(props) => props.theme.font};
-  font-style: normal;
-  font-weight: normal;
   font-size: 20px;
   text-decoration: none;
   color: ${(props) => props.theme.colors.text};
@@ -65,5 +63,5 @@ const Link = styled(NavLink)`
   }
 `;
 const Toggler = styled.div`
-  margin-left: 50px;
+  margin-left: 30px;
 `;

@@ -68,8 +68,7 @@ const TitleWrapper = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  padding: 0 10px;
-  margin-top: 7px;
+  margin-top: 10px;
 `;
 
 const Count = styled.span`

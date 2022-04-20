@@ -15,17 +15,12 @@ class Api {
     return axios.get(`${this._url}/currentDecks/${deckId}`);
   }
 
-  // deleteCard(deletedCards) {
-  //   // console.log(deletedCards);
-  //   return axios.delete(`${this._url}/cards/:`);
-  // }
+  deleteDeck(deletedCards) {
+    return axios.delete(`${this._url}/decks/${deletedCards}`);
+  }
 
   // updateCards(newCards) {
   //   return axios.patch(`${this._url}/cards/:id"`);
-  // }
-
-  // getCardsByDeck(id) {
-  //   return axios.get(`${this._url}/cards/byDeckId/${id}`);
   // }
 }
 

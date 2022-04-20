@@ -85,15 +85,14 @@ const StyledLink = styled(Link)`
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: ${(props) => (props.isEditor ? '569px' : '605px')};
-  width: 100%;
+  max-width: 600px;
   gap: 20px;
   justify-content: flex-end;
 `;
 
 const Select = styled.select`
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   background: ${(props) => props.theme.colors.background};
   border: 1px solid ${(props) => props.theme.colors.text};
   color: ${(props) => props.theme.colors.text};

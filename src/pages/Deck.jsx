@@ -9,22 +9,32 @@ import ToolBar from '../components/toolbar/Toolbar';
 export default function Deck({ match }) {
   const { id } = match.params;
   const history = useHistory();
-  const { dispatch, cardsById, currentDeckById } = useStoreon('cardsById', 'currentDeckById');
+  const { dispatch, cardsByDeckId, currentDeckByDeckId } = useStoreon(
+    'cardsByDeckId',
+    'currentDeckByDeckId',
+  );
 
   useEffect(() => {
-    dispatch('cards/getCurrentDeck', { deckId: id });
-    dispatch('cards/getCardsByDeck', { deckId: id });
+    dispatch('cards/getCardsByDeckId', { deckId: id });
+    dispatch('decks/getCurrentDeckByDeckId', { deckId: id });
   }, []);
 
-  if (!cardsById?.length || !currentDeckById) {
-    return <div>shrek</div>;
+  useEffect(
+    () => () => {
+      dispatch('decks/deckClear');
+    },
+    [],
+  );
+
+  if (!cardsByDeckId?.length || !currentDeckByDeckId) {
+    return null;
   }
-  const { title, cardsCount } = currentDeckById;
+  const { title, cardsCount } = currentDeckByDeckId;
 
   const delDeck = () => {
-    dispatch('decks/delete', { deletedDeck: currentDeckById });
+    dispatch('decks/delete', { deletedDeck: currentDeckByDeckId });
     dispatch('cards/delete', {
-      deletedCards: cardsById,
+      deletedCards: cardsByDeckId,
     });
     history.push('/decks');
   };
@@ -33,9 +43,9 @@ export default function Deck({ match }) {
     <Wrapper>
       <ToolBar title={title} count={cardsCount} delDeck={delDeck} />
       <Grid isCentered>
-        {cardsById.map(({ question, id: cardId }) => (
+        {cardsByDeckId.map(({ question, id: cardId }) => (
           <StyledLink to={`/memo/single/${cardId}`} key={cardId}>
-            <DeckCard content={question} id={cardId} />
+            <DeckCard question={question} id={cardId} />
           </StyledLink>
         ))}
       </Grid>

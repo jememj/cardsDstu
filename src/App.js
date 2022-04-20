@@ -5,8 +5,9 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Header from './components/header/Header';
 import Deck from './pages/Deck';
 import Decks from './pages/Decks';
-import Editor from './pages/Editor';
+import EditorDeck from './pages/EditorDeck';
 import Memo from './pages/Memo';
+import NewEditor from './pages/NewEditor';
 import Theme from './styles/Theme';
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
           <Route path="/" component={Decks} exact />
           <Route path="/Decks" component={Decks} exact />
           <Route path="/decks/:id" component={Deck} exact />
-          <Route path="/editor/:id?" component={Editor} exact />
+          <Route path="/editor/" component={NewEditor} exact />
+          <Route path="/editor/:id" component={EditorDeck} exact />
           <Route path="/memo/:mode/:id" component={Memo} exact />
         </Switch>
       </Container>

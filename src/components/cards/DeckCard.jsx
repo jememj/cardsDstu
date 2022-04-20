@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Deck({ content }) {
+export default function DeckCard({ question }) {
   return (
     <Wrapper>
-      <Description>{content}</Description>
+      <Description>{question}</Description>
     </Wrapper>
   );
 }

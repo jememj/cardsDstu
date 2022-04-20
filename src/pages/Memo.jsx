@@ -7,15 +7,30 @@ import Button from '../components/memo/Button';
 import Tooltip from '../components/memo/Tooltip';
 
 export default function Memo({ match }) {
-  const { dispatch, decks, session, cards } = useStoreon('decks', 'session', 'cards');
+  const {
+    dispatch,
+    decks,
+    session,
+    cards,
+    cardByCardId,
+    cardsByDeckId,
+    currentDeckByDeckId,
+  } = useStoreon(
+    'decks',
+    'session',
+    'cards',
+    'cardByCardId',
+    'cardsByDeckId',
+    'currentDeckByDeckId',
+  );
   const { mode = 'deck', id } = match.params;
   const [currentDeck, setCurrentDeck] = useState([]);
   const [count, setCount] = useState(1);
 
   const deck = useMemo(
     () => ({
-      ...decks.find((i) => i.id === id),
-      deck: cards.filter((card) => card.deckId === id),
+      ...currentDeckByDeckId,
+      deck: cardsByDeckId,
     }),
     [],
   );
@@ -33,18 +48,28 @@ export default function Memo({ match }) {
     setCurrentDeck(session.deck);
   }, [session.deck]);
 
+  useEffect(() => {
+    dispatch('cards/getCardByCardId', { cardId: id });
+    dispatch('cards/getCardsByDeckId', { deckId: id });
+    dispatch('decks/getCurrentDeckByDeckId', { deckId: id });
+  }, []);
+
   if (mode === 'single') {
+    if (!cardByCardId) {
+      return null;
+    }
+
     return (
       <Wrapper>
-        <Card data={cards.find((card) => card.id === id)} />
+        <Card data={cardByCardId} />
         <Tooltip count={count} mode={mode} />
         {mode === 'deck' && <Button next={next} />}
       </Wrapper>
     );
   }
 
-  if (!currentDeck || !currentDeck.length || !currentDeck[0]) {
-    return null;
+  if (!currentDeck?.length) {
+    return <div>shrek</div>;
   }
 
   return (

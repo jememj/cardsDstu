@@ -7,22 +7,25 @@ class Api {
     return axios.get(`${this._url}/cards`);
   }
 
-  postNewCard(newCards) {
-    // console.log(newCards);
+  postNewCards(newCards) {
     return axios.post(`${this._url}/cards`, newCards);
   }
 
-  deleteCard(deletedCards) {
-    // console.log(deletedCards);
-    return axios.delete(`${this._url}/cards/:`);
+  deleteCard(id) {
+    return axios.delete(`${this._url}/cards/${id}`);
   }
 
-  updateCards(newCards) {
-    return axios.patch(`${this._url}/cards/:id"`);
+  updateCards(newCards, ids) {
+    console.log('service', ids);
+    return axios.patch(`${this._url}/cards/${ids}`, newCards);
   }
 
-  getCardsByDeck(id) {
+  cardsByDeckId(id) {
     return axios.get(`${this._url}/cards/byDeckId/${id}`);
+  }
+
+  getCardByCardId(id) {
+    return axios.get(`${this._url}/cards/${id}`);
   }
 }
 

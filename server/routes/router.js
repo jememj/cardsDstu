@@ -5,23 +5,29 @@ import {
   getAllCards,
   addCard,
   getCardById,
-  getCardsByDeck,
+  getCardsByDeckId,
   updateCard,
   deleteCard,
-} from '../controllers/Cards.js';
-import { getAllDecks, addDeck, getCurrentDeckById } from '../controllers/Decks.js';
+} from '../controllers/CardsController.js';
+import {
+  getAllDecks,
+  addDeck,
+  getCurrentDeckById,
+  deleteDeck,
+} from '../controllers/DecksController.js';
 
 const router = express.Router();
 
 router.get('/cards', getAllCards);
-router.get('/card:id', getCardById);
-router.get('/cards/byDeckId/:id', getCardsByDeck);
+router.get('/cards/:id', getCardById);
+router.get('/cards/byDeckId/:id', getCardsByDeckId);
 router.post('/cards', addCard);
-router.patch('/card/:id', updateCard);
-router.delete('/card/:id', deleteCard);
+router.patch('/cards/:id', updateCard);
+router.delete('/cards/:id', deleteCard);
 
 router.get('/decks', getAllDecks);
-router.post('/decks', addDeck);
 router.get('/currentDecks/:id', getCurrentDeckById);
+router.post('/decks', addDeck);
+router.delete('/decks/:id', deleteDeck);
 
 export default router;

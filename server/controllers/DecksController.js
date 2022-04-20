@@ -11,22 +11,32 @@ export const getAllDecks = async (req, res) => {
 };
 export const addDeck = async (req, res) => {
   try {
-    await decksModel.bulkCreate(req.body);
-    res.json({
-      message: 'Deck Created',
-    });
+    const deck = await decksModel.bulkCreate(req.body);
+    res.json(deck);
   } catch (error) {
     res.json({ message: error.message });
   }
 };
 export const getCurrentDeckById = async (req, res) => {
   try {
-    const currentDeck = await decksModel.findAll({
+    const deck = await decksModel.findAll({
       where: {
         id: req.params.id,
       },
     });
-    res.json(currentDeck[0]);
+    res.json(deck[0]);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+export const deleteDeck = async (req, res) => {
+  try {
+    const deck = await decksModel.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json(deck);
   } catch (error) {
     res.json({ message: error.message });
   }

@@ -8,6 +8,10 @@ const { DataTypes } = Sequelize;
 const Decks = db.define(
   'decks',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
     background: {
       type: DataTypes.STRING,
     },
@@ -15,7 +19,7 @@ const Decks = db.define(
       type: DataTypes.INTEGER,
     },
     category: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     color: {
       type: DataTypes.STRING,
