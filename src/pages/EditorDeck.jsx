@@ -5,29 +5,30 @@ import { useStoreon } from 'storeon/react';
 
 import Editor from '../components/Editor';
 import generateEmptyCard from '../utils/generateEmptyCard';
-import generateRandomId from '../utils/generateRandomId';
 
 export default function EditorDeck({ match }) {
   const { id } = match.params;
   const history = useHistory();
   const firstOpen = useRef(true);
-  console.log('firstOpen');
+
   useEffect(() => {
     dispatch('decks/getCurrentDeck', { deckId: id });
     dispatch('cards/getCardsByDeck', { deckId: id });
   }, [id]);
 
-  const { dispatch, cardsById, currentDeckById } = useStoreon('cardsById', 'currentDeckById');
-  const [name, setName] = useState(() => currentDeckById?.title || '');
-  const [color, setColor] = useState(() => currentDeckById?.background || '#45B071');
-  const [category, setCategory] = useState(() => currentDeckById?.category || '');
-  const [deckId] = useState(() => id || generateRandomId());
+  const { dispatch, cardsByDeckId, currentDeckByDeckId } = useStoreon(
+    'cardsByDeckId',
+    'currentDeckByDeckId',
+  );
+  const [name, setName] = useState(() => currentDeckByDeckId?.title);
+  const [color, setColor] = useState(() => currentDeckByDeckId?.background);
+  const [category, setCategory] = useState(() => currentDeckByDeckId?.category);
 
   const [count, setCount] = useState(() =>
-    cardsById ? Array.from(Array(cardsById.length).keys()) : [0],
+    cardsByDeckId ? Array.from(Array(cardsByDeckId.length).keys()) : [0],
   );
   const [cards, setCards] = useState(() =>
-    cardsById ? [...cardsById] : [generateEmptyCard(deckId, 0)],
+    cardsByDeckId ? [...cardsByDeckId] : [generateEmptyCard(id, 0)],
   );
 
   const handleCard = (pos, e) => {
@@ -47,9 +48,9 @@ export default function EditorDeck({ match }) {
   };
   const saveDeck = () => {
     if (id) {
-      dispatch('decks/edit', {
+      dispatch('decks/update', {
         deck: {
-          id: deckId,
+          id,
           background: color,
           color: '#FCFCFC',
           title: name,
@@ -61,31 +62,15 @@ export default function EditorDeck({ match }) {
       dispatch('cards/update', {
         newCards: cards,
       });
-    } else {
-      dispatch('decks/create', {
-        deck: {
-          id: deckId,
-          background: color,
-          color: '#FCFCFC',
-          title: name,
-          category,
-          prtivate: true,
-          cardsCount: count.length,
-        },
-      });
-      dispatch('cards/add', {
-        newCards: cards,
-      });
     }
-
     setTimeout(() => {
       history.push('/decks');
     }, 350);
   };
 
   const delDeck = () => {
-    if (currentDeckById) {
-      dispatch('decks/delete', { deletedDeck: currentDeckById });
+    if (currentDeckByDeckId) {
+      dispatch('decks/delete', { deletedDeck: currentDeckByDeckId });
       dispatch('cards/delete', {
         deletedCards: cards,
       });
@@ -110,10 +95,9 @@ export default function EditorDeck({ match }) {
       setCount={setCount}
       setCards={setCards}
       count={count}
-      deckId={deckId}
       deleteForm={deleteForm}
       firstOpen={firstOpen}
-      cards={cardsById}
+      cards={cards}
       handleCard={handleCard}
     />
   );

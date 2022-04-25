@@ -69,7 +69,7 @@ export default function Memo({ match }) {
   }
 
   if (!currentDeck?.length) {
-    return <div>shrek</div>;
+    return null;
   }
 
   return (

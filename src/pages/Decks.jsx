@@ -11,16 +11,15 @@ export default function Decks() {
   const { dispatch, filter } = useStoreon('filter');
 
   const filteredDecks = filter ? decks.filter((deck) => deck.category === filter) : decks;
-
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    dispatch('decks/getDecks');
+    return () => {
       dispatch('filter/del');
-    },
-    [],
-  );
+    };
+  }, []);
 
-  if (!filteredDecks?.length) {
-    return <div>shrek</div>;
+  if (!filteredDecks) {
+    return null;
   }
 
   return (

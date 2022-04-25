@@ -9,7 +9,7 @@ const Decks = db.define(
   'decks',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     background: {

@@ -19,9 +19,9 @@ class Api {
     return axios.delete(`${this._url}/decks/${deletedCards}`);
   }
 
-  // updateCards(newCards) {
-  //   return axios.patch(`${this._url}/cards/:id"`);
-  // }
+  updateDeck(newDeck) {
+    return axios.patch(`${this._url}/decks/update`, newDeck);
+  }
 }
 
 const decksApi = new Api();

@@ -31,7 +31,8 @@ export const getCardById = async (req, res) => {
   }
 };
 
-export const addCard = async (req, res) => {
+export const addCards = async (req, res) => {
+  console.log('cards add', req.body);
   try {
     const card = await cardsModel.bulkCreate(req.body);
     res.json(card);
@@ -42,11 +43,13 @@ export const addCard = async (req, res) => {
 
 export const updateCard = async (req, res) => {
   try {
-    const card = await cardsModel.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
+    const card = await req.body.map((i) =>
+      cardsModel.update(i, {
+        where: {
+          id: i.id,
+        },
+      }),
+    );
     res.json(card);
   } catch (error) {
     res.json({ message: error.message });

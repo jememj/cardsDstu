@@ -2,23 +2,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStoreon } from 'storeon/react';
-import styled from 'styled-components';
 
 import Editor from '../components/Editor';
 import generateEmptyCard from '../utils/generateEmptyCard';
 import generateRandomId from '../utils/generateRandomId';
 
-export default function NewEditor({ match }) {
-  const { id } = match.params;
+export default function NewEditor() {
   const history = useHistory();
   const firstOpen = useRef(true);
 
-  useEffect(() => {
-    dispatch('decks/getCurrentDeck', { deckId: id });
-    dispatch('cards/getCardsByDeck', { deckId: id });
-  }, [id]);
-
-  const { dispatch, cardsById, currentDeckById } = useStoreon('cardsById', 'currentDeckById');
+  const { dispatch, currentDeckById } = useStoreon('cardsById', 'currentDeckById');
   const [name, setName] = useState(() => '');
   const [color, setColor] = useState(() => '#45B071');
   const [category, setCategory] = useState(() => '');
@@ -55,7 +48,7 @@ export default function NewEditor({ match }) {
         cardsCount: count.length,
       },
     });
-    dispatch('cards/add', {
+    dispatch('cards/create', {
       newCards: cards,
     });
 
@@ -99,15 +92,3 @@ export default function NewEditor({ match }) {
     />
   );
 }
-
-const Wrapper = styled.div`
-  max-width: 900px;
-  margin: 0 auto;
-  padding-top: 40px;
-`;
-
-const FlexWrap = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  padding-bottom: 10px;
-`;

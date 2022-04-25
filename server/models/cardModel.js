@@ -9,11 +9,15 @@ const { DataTypes } = Sequelize;
 const Card = db.define(
   'cards',
   {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
     answer: {
       type: DataTypes.STRING,
     },
     deckId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     pos: {
       type: DataTypes.INTEGER,

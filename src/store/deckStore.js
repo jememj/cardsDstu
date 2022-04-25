@@ -3,9 +3,14 @@ import decksApi from '../service/decksService';
 
 export default function deck(store) {
   store.on('@init', async () => {
+    store.dispatch('decks/getDecks');
+  });
+
+  store.on('decks/getDecks', async () => {
     const decks = await decksApi.getDecks();
     store.dispatch('decks/loaded', { decks: decks.data, filter: '' });
   });
+
   store.on('decks/loaded', (_, { decks }) => ({ decks }));
 
   store.on('decks/deckClear', (_) => ({ currentDeckByDeckId: {} }));
@@ -22,22 +27,14 @@ export default function deck(store) {
 
   store.on('decks/create', async (_, { deck }) => {
     await decksApi.postNewDeck([deck]);
-    return { decks: decksApi.getDecks() };
   });
 
-  store.on('decks/edit', ({ decks, filter }, { deck }) => {
-    const index = decks.findIndex((item) => item.id === deck.id);
-    const newDecks = [...decks];
-    newDecks[index] = { ...deck };
-    return {
-      filter,
-      decks: [...newDecks],
-    };
+  store.on('decks/update', async (_, { deck }) => {
+    await decksApi.updateDeck(deck);
   });
 
   store.on('decks/delete', async (_, { deletedDeck }) => {
     await decksApi.deleteDeck(deletedDeck.id);
-    return { cards: decksApi.getDecks() };
   });
 
   store.on('filter/pick', ({ decks }, category) => ({

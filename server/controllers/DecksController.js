@@ -41,3 +41,15 @@ export const deleteDeck = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+export const updateDeck = async (req, res) => {
+  try {
+    const deck = await decksModel.update(req.body, {
+      where: {
+        id: req.body.id,
+      },
+    });
+    res.json(deck);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};

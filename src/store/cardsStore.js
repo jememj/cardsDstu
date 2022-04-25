@@ -8,26 +8,16 @@ export default function cardsStore(store) {
 
   store.on('cards/loaded', (_, { cards }) => ({ cards, cardsById: [] }));
 
-  store.on('cards/add', async (_, { newCards }) => {
+  store.on('cards/create', async (_, { newCards }) => {
     await cardsApi.postNewCards(newCards);
-    return { cards: cardsApi.getCards() };
   });
 
   store.on('cards/update', async (_, { newCards }) => {
-    console.log(
-      'store',
-      newCards.map((i) => i.id),
-    );
-    await cardsApi.updateCards(
-      newCards,
-      newCards.map((i) => i.id),
-    );
-    return { cards: cardsApi.getCards() };
+    await cardsApi.updateCards(newCards);
   });
 
   store.on('cards/delete', async (_, { deletedCards }) => {
     await cardsApi.deleteCard(deletedCards);
-    return { cards: cardsApi.getCards() };
   });
 
   store.on('cards/getCardsByDeckId', async (_, { deckId }) => {
@@ -37,7 +27,6 @@ export default function cardsStore(store) {
   store.on('cards/getCardsByDeckIdLoaded', (_, { cardsByDeckId }) => ({ cardsByDeckId }));
 
   store.on('cards/getCardByCardId', async (_, { cardId }) => {
-    console.log('xxx', cardId);
     const cardByCardId = await cardsApi.getCardByCardId(cardId);
     store.dispatch('cards/cardsByIdLoaded', { cardByCardId: cardByCardId.data });
   });

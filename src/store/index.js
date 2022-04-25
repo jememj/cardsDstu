@@ -1,9 +1,9 @@
 import { createStoreon } from 'storeon';
 
-import cardsStore from './cards';
-import deckStore from './deck';
-import memoStore from './memo';
-import themeStore from './theme';
+import cardsStore from './cardsStore';
+import deckStore from './deckStore';
+import memoStore from './memoStore';
+import themeStore from './themeStore';
 
 const store = createStoreon([themeStore, memoStore, deckStore, cardsStore]);
 

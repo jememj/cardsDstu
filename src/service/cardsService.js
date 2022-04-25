@@ -15,9 +15,8 @@ class Api {
     return axios.delete(`${this._url}/cards/${id}`);
   }
 
-  updateCards(newCards, ids) {
-    console.log('service', ids);
-    return axios.patch(`${this._url}/cards/${ids}`, newCards);
+  updateCards(newCards) {
+    return axios.patch(`${this._url}/cards/update`, newCards);
   }
 
   cardsByDeckId(id) {
