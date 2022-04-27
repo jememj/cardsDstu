@@ -29,7 +29,7 @@ export default function Deck({ match }) {
   if (!cardsByDeckId || !currentDeckByDeckId) {
     return null;
   }
-  console.log('cardsByDeckId', cardsByDeckId);
+
   const { title, cardsCount } = currentDeckByDeckId;
 
   const delDeck = () => {

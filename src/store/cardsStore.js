@@ -2,6 +2,10 @@ import cardsApi from '../service/cardsService';
 
 export default function cardsStore(store) {
   store.on('@init', async () => {
+    store.dispatch('cards/getCards');
+  });
+
+  store.on('cards/getCards', async () => {
     const cards = await cardsApi.getCards();
     store.dispatch('cards/loaded', { cards: cards.data });
   });

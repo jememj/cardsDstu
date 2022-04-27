@@ -35,7 +35,6 @@ export default function NewEditor() {
     setCount(newForms);
     setCards(newCards);
   };
-
   const saveDeck = () => {
     dispatch('decks/create', {
       deck: {

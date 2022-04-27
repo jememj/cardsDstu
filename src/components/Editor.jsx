@@ -23,6 +23,7 @@ export default function Editor({
   firstOpen,
   cards,
   handleCard,
+  setNewCardsIds,
 }) {
   return (
     <Wrapper>
@@ -40,8 +41,12 @@ export default function Editor({
       <NewCardButton
         onClick={() => {
           const pos = count[count.length - 1] + 1 || 0;
+          const newCard = generateEmptyCard(deckId, pos);
           setCount([...count, pos]);
-          setCards([...cards, generateEmptyCard(deckId, pos)]);
+          setCards([...cards, newCard]);
+          if (setNewCardsIds) {
+            setNewCardsIds((prev) => ({ ...prev, [newCard.id]: true }));
+          }
         }}
       />
       <FlexWrap>

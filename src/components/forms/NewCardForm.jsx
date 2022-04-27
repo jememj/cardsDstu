@@ -14,7 +14,7 @@ export default function NewCardForm({ deleteForm, id, card, handleCard }) {
           placeholder="Введите вопрос"
           value={card.question}
           onChange={(e) => {
-            handleCard(id, e);
+            handleCard(id, e, card.id);
           }}
         />
       </InputWrapper>
@@ -25,7 +25,7 @@ export default function NewCardForm({ deleteForm, id, card, handleCard }) {
           placeholder="Введите ответ"
           value={card.answer}
           onChange={(e) => {
-            handleCard(id, e);
+            handleCard(id, e, card.id);
           }}
         />
       </InputWrapper>

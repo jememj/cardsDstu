@@ -32,7 +32,6 @@ export const getCardById = async (req, res) => {
 };
 
 export const addCards = async (req, res) => {
-  console.log('cards add', req.body);
   try {
     const card = await cardsModel.bulkCreate(req.body);
     res.json(card);
